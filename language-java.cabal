@@ -55,3 +55,14 @@ Test-Suite test-java-parse
                    , filepath
                    , directory
   ghc-options:       -Wall -fno-warn-orphans -fno-warn-missing-signatures
+
+
+Test-Suite test-java-pretty
+  type:              exitcode-stdio-1.0
+  hs-source-dirs:    tests
+  Main-is:           TestsPretty.hs
+  Build-Depends:     base >= 3 && < 5
+                   , tasty
+                   , tasty-hunit
+                   , language-java
+  ghc-options:       -Wall -fno-warn-orphans -fno-warn-missing-signatures
