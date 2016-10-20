@@ -10,13 +10,14 @@ import Language.Java.Pretty(pretty)
 import Text.Parsec.Error(ParseError)
 
 
-main = defaultMain unitTests
+main = defaultMain classicTests
 
 
-unitTests = testGroup "Unit tests"
+classicTests = testGroup "Classic language-java formatting"
   [ v "Minimalist class" "class X\n{\n}"
   , v "Public class decl" "public class X\n{\n}"
-  , v "Simple field" "public class X\n{\n  int x;\n}"
+  , v "Simple field" "class X\n{\n  int x;\n}"
+  , v "Simple method" "class X\n{\n  void x ()\n  {\n  }\n}"
   ]
   where v = verifyUnchangedByRoundtrip
 
