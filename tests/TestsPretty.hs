@@ -14,8 +14,11 @@ main = defaultMain unitTests
 
 
 unitTests = testGroup "Unit tests"
-  [ verifyUnchangedByRoundtrip "Roundtrip empty class" "class X\n{\n}"
+  [ v "Minimalist class" "class X\n{\n}"
+  , v "Public class decl" "public class X\n{\n}"
+  , v "Simple field" "public class X\n{\n  int x;\n}"
   ]
+  where v = verifyUnchangedByRoundtrip
 
 
 parse :: String -> [Either ParseError CompilationUnit]
@@ -23,6 +26,6 @@ parse code = parser compilationUnit <$> [code]
 
 
 verifyUnchangedByRoundtrip desc code =
-    testCase desc $ case head (parse code) of
+    testCase ("Roundtrip " ++ desc) $ case head (parse code) of
         Left e -> fail (show e)
         Right c -> assertEqual [] code $ show $ pretty c
