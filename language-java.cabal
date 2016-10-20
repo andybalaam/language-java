@@ -62,6 +62,8 @@ Test-Suite test-java-pretty
   hs-source-dirs:    tests
   Main-is:           TestsPretty.hs
   Build-Depends:     base >= 3 && < 5
+                   , parsec >= 3.0
+                   , pretty >= 1.0
                    , tasty
                    , tasty-hunit
                    , language-java
