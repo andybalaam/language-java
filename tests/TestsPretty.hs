@@ -13,11 +13,39 @@ import Text.Parsec.Error(ParseError)
 main = defaultMain classicTests
 
 
+
+
+
 classicTests = testGroup "Classic language-java formatting"
-  [ v "Minimalist class" "class X\n{\n}"
-  , v "Public class decl" "public class X\n{\n}"
-  , v "Simple field" "class X\n{\n  int x;\n}"
-  , v "Simple method" "class X\n{\n  void x ()\n  {\n  }\n}"
+
+  [ v "Minimalist class" $ unlines
+    [ "class X"
+    , "{"
+    , "}"
+    ]
+
+  , v "Public class decl" $ unlines
+    [ "public class X"
+    , "{"
+    , "}"
+    ]
+
+  , v "Simple field" $ unlines
+    [ "class X"
+    , "{"
+    , "  int x;"
+    , "}"
+    ]
+
+  , v "Simple method" $ unlines
+    [ "class X"
+    , "{"
+    , "  void x ()"
+    , "  {"
+    , "  }"
+    , "}"
+    ]
+
   ]
   where v = verifyUnchangedByRoundtrip
 
@@ -26,7 +54,18 @@ parse :: String -> [Either ParseError CompilationUnit]
 parse code = parser compilationUnit <$> [code]
 
 
+stripTrailingNewline :: String -> String
+stripTrailingNewline x =
+    if last x == '\n' then
+        init x
+    else
+        x
+
+
 verifyUnchangedByRoundtrip desc code =
-    testCase ("Roundtrip " ++ desc) $ case head (parse code) of
-        Left e -> fail (show e)
-        Right c -> assertEqual [] code $ show $ pretty c
+    let
+        cod = stripTrailingNewline code
+    in
+        testCase ("Roundtrip " ++ desc) $ case head (parse cod) of
+            Left  err -> fail (show err)
+            Right ast -> assertEqual [] cod $ show $ pretty ast
