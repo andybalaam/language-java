@@ -13,9 +13,6 @@ import Text.Parsec.Error(ParseError)
 main = defaultMain classicTests
 
 
-
-
-
 classicTests = testGroup "Classic language-java formatting"
 
   [ v "Minimalist class" $ unlines
@@ -41,6 +38,15 @@ classicTests = testGroup "Classic language-java formatting"
     [ "class X"
     , "{"
     , "  void x ()"
+    , "  {"
+    , "  }"
+    , "}"
+    ]
+
+  , v "Exception specification" $ unlines
+    [ "class X"
+    , "{"
+    , "  void x () throws Exception"
     , "  {"
     , "  }"
     , "}"
